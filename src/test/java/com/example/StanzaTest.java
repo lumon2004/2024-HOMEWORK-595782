@@ -1,35 +1,36 @@
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.junit.Before;
 
 import ambienti.Stanza;
 import attrezzi.Attrezzo;
 
 public class StanzaTest {
 	Stanza s1 = new Stanza("s1");
-	Stanza s2 = new Stanza("s2");
-	Attrezzo a = new Attrezzo("martello", 42);
+	Stanza s2= new Stanza("s2");
+	Attrezzo m = new Attrezzo("martello", 42);
 
-	@Before
-	public void setUp() {
-		s1.impostaStanzaAdiacente("sud", s2);
-		s1.addAttrezzo(a);
+	@Test
+	public void testGetStanzaAdiacente() {
+		assertNull(s1.getStanzaAdiacente("sud"));
 	}
 
 	@Test
 	public void testImpostaStanzaAdiacente() {
+		s1.impostaStanzaAdiacente("sud", s2);
 		assertEquals(s2, s1.getStanzaAdiacente("sud"));
 	}
 	
 	@Test
 	public void testAddAttrezzo() {		
-		assertTrue(s1.addAttrezzo(a));
+		assertTrue(s1.addAttrezzo(m));
 	}
 
 	@Test
-	public void testRemoveAttrezzo() {
-		assertTrue(s1.removeAttrezzo(a));
+	public void testGetAttrezzo() {
+		s1.addAttrezzo(m);
+		assertEquals(m.getNome(), s1.getAttrezzo("martello").getNome());
 	}
 }

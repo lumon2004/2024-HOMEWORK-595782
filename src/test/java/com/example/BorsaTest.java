@@ -9,12 +9,13 @@ import attrezzi.Attrezzo;
 import giocatore.Borsa;
 
 public class BorsaTest {
-	Borsa b = new Borsa();
+	Borsa b;
 	Attrezzo falce;
 	Attrezzo sega;
 	
 	@Before
 	public void setUp() {
+		b = new Borsa();
 		falce = new Attrezzo("falce", 2);
 		sega = new Attrezzo("sega", 16);
 	}

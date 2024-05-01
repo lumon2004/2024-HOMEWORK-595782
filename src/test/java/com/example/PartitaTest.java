@@ -4,6 +4,7 @@ import static org.junit.Assert.assertFalse;
 import org.junit.Test;
 
 import ambienti.Stanza;
+import partita.Partita;
 
 public class PartitaTest {
 	Partita p = new Partita();
@@ -23,5 +24,5 @@ public class PartitaTest {
 	@Test
 	public void testIsFinita() {		
 		assertFalse(p.isFinita());
-	}
+	}	
 }

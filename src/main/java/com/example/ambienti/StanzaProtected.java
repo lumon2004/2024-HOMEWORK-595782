@@ -1,18 +1,18 @@
 package ambienti;
 import attrezzi.Attrezzo;
 
-public class Stanza {
+public class StanzaProtected {
     static final private int NUMERO_MASSIMO_DIREZIONI = 4;
     static final private int NUMERO_MASSIMO_ATTREZZI = 10;
 
-    private String nome;
+    protected String nome;
     protected Attrezzo[] attrezzi;
     protected int numeroAttrezzi;
-    private Stanza[] stanzeAdiacenti;
-    private int numeroStanzeAdiacenti;
-    private String[] direzioni;
+    protected Stanza[] stanzeAdiacenti;
+    protected int numeroStanzeAdiacenti;
+    protected String[] direzioni;
 
-    public Stanza(String nome) {
+    public StanzaProtected(String nome) {
         this.nome = nome;
         this.numeroStanzeAdiacenti = 0;
         this.numeroAttrezzi = 0;
