@@ -14,7 +14,7 @@ public class StanzaMagicaTest {
 
     @Test
     public void testAddAttrezzo() {
-        assertTrue(staMag.addAttrezzo(spada));
+        assertEquals(true, staMag.addAttrezzo(spada));
     }
 
     @Test

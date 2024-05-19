@@ -10,17 +10,10 @@ public class StanzaBuia extends Stanza {
     
     @Override
     public String getDescrizione() {
-        int trovato = 0;
-        for (int i=0; i<super.getNumeroAttrezzi(); i++) {
-            if (nomeAttrezzo.equals(super.getAttrezzo(nomeAttrezzo).getNome())) {
-                trovato = 1;
-                break;
-            }
-        }
-        if (trovato == 0) {
+        if (!this.hasAttrezzo(nomeAttrezzo)) {
             return "Qui c'è buio pesto!\n";
         } else {
-            return super.toString();
+            return super.getDescrizione();
         }
     }
 }

@@ -3,7 +3,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-
+import ambienti.*;
 import comandi.ComandoPosa;
 import io.IOConsole;
 import partita.Partita;
@@ -14,20 +14,34 @@ public class ComandoPosaTest {
     Partita partita;
     ComandoPosa posa;
     Attrezzo scudo;
+    Labirinto labirinto;
 
     @Before
     public void setUp() {
         io = new IOConsole();
-        partita = new Partita();
+        labirinto = new LabirintoBuilder()
+            .addStanzaIniziale("Cucina")
+            .addAttrezzo("coltello", 1)
+            .addStanzaVincente("Salone")
+            .addAdiacenza("Cucina", "Salone", "nord")
+            .getLabirinto();
+        partita = new Partita(labirinto);
         posa = new ComandoPosa();
         scudo = new Attrezzo("scudo", 5);
     }
 
     @Test
-    public void testEsegui() {
+    public void testAttrezzoPosato() {
+        partita.getGiocatore().getBorsa().addAttrezzo(scudo);
         posa.setParametro("scudo");
         posa.esegui(partita);
+        assertTrue(partita.getLabirinto().getStanzaCorrente().hasAttrezzo("scudo"));
+    }
 
-        assertEquals(2, partita.getStanzaCorrente().getNumeroAttrezzi());
+    @Test
+    public void testAttrezzoPosatoNull() {
+        posa.setParametro("forchetta");
+        posa.esegui(partita);
+        assertFalse(partita.getStanzaCorrente().hasAttrezzo("forchetta"));
     }
 }

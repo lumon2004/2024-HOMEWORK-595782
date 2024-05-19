@@ -18,6 +18,12 @@ public class Partita {
 		stanzaCorrente = labirinto.getStanzaCorrente();
 	}
 
+	public Partita(Labirinto labirinto){
+		this.labirinto = labirinto;
+		giocatore = new Giocatore();
+		this.finita = false;
+	}
+
 	public Labirinto getLabirinto() {
 		return labirinto;
 	}
