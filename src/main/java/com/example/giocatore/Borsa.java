@@ -1,6 +1,6 @@
-package giocatore;
+package com.example.giocatore;
 
-import attrezzi.Attrezzo;
+import com.example.attrezzi.Attrezzo;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package giocatore;
+package com.example.giocatore;
 
 public class Giocatore {
 	static final private int CFU_INIZIALI = 20;

@@ -1,6 +1,6 @@
-package ambienti;
+package com.example.ambienti;
 
-import attrezzi.Attrezzo;
+import com.example.attrezzi.Attrezzo;
 
 public class StanzaMagicaProtected extends StanzaProtected {
     final static private int SOGLIA_MAGICA_DEFAULT = 3;

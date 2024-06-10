@@ -1,6 +1,6 @@
-package comandi;
+package com.example.comandi;
 
-import partita.Partita;
+import com.example.Partita;
 
 public interface Comando {
     public void esegui(Partita partita);

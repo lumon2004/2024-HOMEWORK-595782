@@ -1,12 +1,12 @@
+package com.example;
+
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import ambienti.*;
-import attrezzi.Attrezzo;
-import comandi.Comando;
-import comandi.FabbricaDiComandi;
-import comandi.FabbricaDiComandiFisarmonica;
-import io.*;
-import partita.Partita;
+import com.example.ambienti.*;
+import com.example.attrezzi.Attrezzo;
+import com.example.comandi.*;
+import com.example.personaggi.*;
 
 @SuppressWarnings("unused")
 
@@ -28,9 +28,8 @@ public class DiaDia {
 		this.partita = new Partita(labirinto);
 	}
 
-	public void gioca() {
-		String istruzione; 
-		Scanner scannerDiLinee;
+	public void gioca() throws Exception {
+		String istruzione;
 		io.mostraMessaggio(MESSAGGIO_BENVENUTO);
 		do {
 			istruzione = io.leggiRiga();
@@ -38,22 +37,29 @@ public class DiaDia {
 		} while (!processaIstruzione(istruzione));
 	}   
 
-	private boolean processaIstruzione(String istruzione) {
+	private boolean processaIstruzione(String istruzione) throws Exception {
 		Comando comandoDaEseguire;
-		FabbricaDiComandi factory = new FabbricaDiComandiFisarmonica();
-
-		comandoDaEseguire = factory.costruisciComando(istruzione);
+		FabbricaDiComandi factory = new FabbricaDiComandiRiflessiva(this.io);
+		try {
+			comandoDaEseguire = factory.costruisciComando(istruzione);
+		} catch (NullPointerException npe) {
+			comandoDaEseguire = factory.costruisciComando("NonValido");
+		}
 		comandoDaEseguire.esegui(this.partita);
 
-		if(this.partita.vinta()) {
+		if (this.partita.vinta()) {
 			io.mostraMessaggio("Hai vinto!");
+		}
+		if (!this.partita.giocatoreIsVivo()) {
+			io.mostraMessaggio("Hai esaurito i CFU…");
 		}
 		return this.partita.isFinita();
 	}   
 
-	public static void main(String[] argc) {
-		IO io = new IOConsole();
-		Labirinto labirinto = new LabirintoBuilder()
+	public static void main(String[] argc) throws Exception {
+		Scanner scanner = new Scanner(System.in);
+		IO io = new IOConsole(scanner);
+		/*Labirinto labirinto = new LabirintoBuilder()
 			.addStanzaIniziale("Atrio")
 			.addAttrezzo("osso", 1)
 			.addStanza("Aula N11")
@@ -61,19 +67,42 @@ public class DiaDia {
 			.addAttrezzo("lanterna", 3)
 			.addStanza("Laboratorio Campus")
 			.addStanzaVincente("Biblioteca")
-			.addAdiacenza("Atrio", "Biblioteca", "nord")
-			.addAdiacenza("Atrio", "Aula N11", "est")
-			.addAdiacenza("Atrio", "Aula N10", "sud")
-			.addAdiacenza("Atrio", "Laboratorio Campus", "ovest")
-			.addAdiacenza("Aula N11", "Laboratorio Campus", "est")
-			.addAdiacenza("Aula N11", "Atrio", "ovest")
-			.addAdiacenza("Aula N10", "Atrio", "nord")
-			.addAdiacenza("Aula N10", "Aula N11", "est")
-			.addAdiacenza("Aula N10", "Laboratorio Campus", "ovest")
-			.addAdiacenza("Laboratorio Campus", "Atrio", "est")
-			.addAdiacenza("Laboratorio Campus", "Aula N11", "ovest")
-			.getLabirinto();
+			.addAdiacenza("Atrio", "Biblioteca", Direzione.nord)
+			.addAdiacenza("Atrio", "Aula N11", Direzione.est)
+			.addAdiacenza("Atrio", "Aula N10", Direzione.sud)
+			.addAdiacenza("Atrio", "Laboratorio Campus", Direzione.ovest)
+			.addAdiacenza("Aula N11", "Laboratorio Campus", Direzione.est)
+			.addAdiacenza("Aula N11", "Atrio", Direzione.ovest)
+			.addAdiacenza("Aula N10", "Atrio", Direzione.nord)
+			.addAdiacenza("Aula N10", "Aula N11", Direzione.est)
+			.addAdiacenza("Aula N10", "Laboratorio Campus", Direzione.ovest)
+			.addAdiacenza("Laboratorio Campus", "Atrio", Direzione.est)
+			.addAdiacenza("Laboratorio Campus", "Aula N11", Direzione.ovest)
+			.getLabirinto();*/
+		/*Labirinto labirinto = new LabirintoBuilder()
+			.addStanzaIniziale("Pianerottolo")
+			.addAttrezzo("torcia", 1)
+			.addStanza("Bagno")
+			.addAttrezzo("carta igienica", 1)
+			.addPersonaggio(new Mago("Merlino", "Sono mago Merlino!", new Attrezzo("bacchetta", 1)))
+			.addStanza("Camera piccola")
+			.addAttrezzo("vestito", 2)
+			.addPersonaggio(new Strega("Morgana", "Sono la strega Morgana!"))
+			.addStanza("Camera grande")
+			.addAttrezzo("osso", 1)
+			.addPersonaggio(new Cane("Mia", "Bau Bau!"))
+			.addStanzaVincente("Mansarda")
+			.addAdiacenza("Pianerottolo", "Bagno", Direzione.est)
+			.addAdiacenza("Pianerottolo", "Camera piccola", Direzione.ovest)
+			.addAdiacenza("Pianerottolo", "Camera grande", Direzione.nord)
+			.addAdiacenza("Pianerottolo", "Mansarda", Direzione.sud)
+			.addAdiacenza("Bagno", "Pianerottolo", Direzione.ovest)
+			.addAdiacenza("Camera piccola", "Pianerottolo", Direzione.est)
+			.addAdiacenza("Camera grande", "Pianerottolo", Direzione.sud)
+			.getLabirinto();*/
+		Labirinto labirinto = Labirinto.newBuilder("labirinto.txt").getLabirinto();
 		DiaDia gioco = new DiaDia(io, labirinto);
 		gioco.gioca();
+		scanner.close();
 	}
 }

@@ -1,6 +1,8 @@
-import ambienti.Labirinto;
-import giocatore.Giocatore;
-import ambienti.Stanza;
+package com.example;
+
+import com.example.ambienti.Labirinto;
+import com.example.giocatore.Giocatore;
+import com.example.ambienti.Stanza;
 
 public class Partita {
 	private Labirinto labirinto;
@@ -14,6 +16,12 @@ public class Partita {
 		labirinto.creaStanze();
 		this.finita = false;
 		stanzaCorrente = labirinto.getStanzaCorrente();
+	}
+
+	public Partita(Labirinto labirinto){
+		this.labirinto = labirinto;
+		giocatore = new Giocatore();
+		this.finita = false;
 	}
 
 	public Labirinto getLabirinto() {
@@ -41,7 +49,7 @@ public class Partita {
 	}
 
 	public boolean vinta() {
-		return labirinto.getStanzaCorrente() == labirinto.getStanzaVincente();
+		return labirinto.getStanzaCorrente()== labirinto.getStanzaVincente();
 	}
 
 	public boolean isFinita() {
@@ -50,5 +58,9 @@ public class Partita {
 
 	public void setFinita() {
 		this.finita = true;
+	}
+
+    public boolean giocatoreIsVivo() {
+		return this.giocatore.getCfu()>0;
 	}
 }

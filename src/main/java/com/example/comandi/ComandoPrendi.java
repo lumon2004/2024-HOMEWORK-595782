@@ -1,34 +1,39 @@
-package comandi;
+package com.example.comandi;
 
-import attrezzi.Attrezzo;
-import io.IOConsole;
-import partita.Partita;
+import java.util.Scanner;
 
-public class ComandoPrendi implements Comando {
+import com.example.IOConsole;
+import com.example.Partita;
+import com.example.attrezzi.Attrezzo;
+
+@SuppressWarnings("unused")
+
+public class ComandoPrendi extends AbstractComando {
     private String nomeAttrezzo;
     private final static String NOME = "prendi";
-    IOConsole io = new IOConsole();
+    Scanner scanner = new Scanner(System.in);
+    IOConsole io = new IOConsole(scanner);
 
     @Override
     public void esegui(Partita partita) {
         Attrezzo a = partita.getLabirinto().getStanzaCorrente().getAttrezzo(nomeAttrezzo);
-        partita.getGiocatore().getBorsa().addAttrezzo(a);
-        partita.getLabirinto().getStanzaCorrente().removeAttrezzo(a);
-        io.mostraMessaggio("Attrezzo preso!");
+        int pesoBorsa = partita.getGiocatore().getBorsa().getPeso();
+        int pesoBorsaMax = partita.getGiocatore().getBorsa().getPesoMax();
+        if (a != null) {
+            if (pesoBorsa + a.getPeso() <= pesoBorsaMax) {
+                partita.getGiocatore().getBorsa().addAttrezzo(a);
+                partita.getLabirinto().getStanzaCorrente().removeAttrezzo(a);
+                io.mostraMessaggio("Attrezzo preso!");
+            } else {
+                io.mostraMessaggio("Borsa piena! Non puoi prendere questo attrezzo.");
+            }
+        } else {
+            io.mostraMessaggio("Attrezzo non esistente!");
+        }
     }
 
     @Override
     public void setParametro(String parametro) {
-        this.nomeAttrezzo = parametro;        
-    }
-
-    @Override
-    public String getParametro() {
-        return this.nomeAttrezzo;
-    }
-
-    @Override
-    public String getNome() {
-        return NOME;
+        this.nomeAttrezzo = parametro;
     }
 }

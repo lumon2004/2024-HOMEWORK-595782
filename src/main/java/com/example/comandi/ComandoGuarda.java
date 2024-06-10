@@ -1,9 +1,14 @@
-package comandi;
-import io.IOConsole;
-import partita.Partita;
+package com.example.comandi;
+import java.util.Scanner;
 
-public class ComandoGuarda implements Comando {
-    IOConsole io = new IOConsole();
+import com.example.IOConsole;
+import com.example.Partita;
+
+@SuppressWarnings("unused")
+
+public class ComandoGuarda extends AbstractComando {
+    Scanner scanner = new Scanner(System.in);
+    IOConsole io = new IOConsole(scanner);
     String parametro = null;
     private final static String NOME = "guarda";
 
@@ -12,20 +17,5 @@ public class ComandoGuarda implements Comando {
         io.mostraMessaggio(partita.getLabirinto().getStanzaCorrente().getDescrizione());
 		io.mostraMessaggio("Hai ancora: "+partita.getGiocatore().getCfu()+ "CFU");
 		io.mostraMessaggio(partita.getGiocatore().getBorsa().toString());
-    }
-
-    @Override
-    public void setParametro(String parametro) {
-        this.parametro = null;
-    }
-
-    @Override
-    public String getParametro() {
-        return this.parametro;
-    }
-
-    @Override
-    public String getNome() {
-        return NOME;
     }
 }

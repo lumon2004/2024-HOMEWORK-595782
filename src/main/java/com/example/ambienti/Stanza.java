@@ -1,12 +1,8 @@
-package ambienti;
-import attrezzi.Attrezzo;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Optional;
-import java.util.HashMap;
+package com.example.ambienti;
+import com.example.attrezzi.Attrezzo;
+import com.example.personaggi.AbstractPersonaggio;
 
-@SuppressWarnings("unused")
+import java.util.*;
 
 public class Stanza {
     static final private int NUMERO_MASSIMO_DIREZIONI = 4;
@@ -14,25 +10,34 @@ public class Stanza {
 
     private String nome;
     protected List<Attrezzo> attrezzi;
-    protected int numeroAttrezzi;
-    private Map<String, Stanza> stanzeAdiacenti;
-    private int numeroStanzeAdiacenti;
-    private String[] direzioni;
+    private Map<Direzione, Stanza> stanzeAdiacenti;
+    @SuppressWarnings("unused")
+    private Direzione[] direzioni;
+    private AbstractPersonaggio personaggio;
 
     public Stanza(String nome) {
         this.nome = nome;
-        this.numeroStanzeAdiacenti = 0;
-        this.numeroAttrezzi = 0;
-        this.direzioni = new String[NUMERO_MASSIMO_DIREZIONI];
+        this.direzioni = new Direzione[NUMERO_MASSIMO_DIREZIONI];
         this.stanzeAdiacenti = new HashMap<>();
         this.attrezzi = new ArrayList<>();
+        this.personaggio = null;
     }
 
-    public void impostaStanzaAdiacente(String direzione, Stanza stanzaAdiacente) {
-        this.stanzeAdiacenti.put(direzione, stanzaAdiacente);
-    }
+	public void setStanzaAdiacente(Direzione direzione, Stanza stanza) {
+		boolean aggiornato = false;
+		
+		if (stanzeAdiacenti.containsKey(direzione)) {
+			this.stanzeAdiacenti.put(direzione,stanza);
+			aggiornato = true;
+		}
+		if (!aggiornato) {
+			if (this.stanzeAdiacenti.size() < NUMERO_MASSIMO_DIREZIONI) {
+				this.stanzeAdiacenti.put(direzione,stanza);
+			}
+        }
+	}
 
-    public Stanza getStanzaAdiacente(String direzione) {
+    public Stanza getStanzaAdiacente(Direzione direzione) {
         return this.stanzeAdiacenti.get(direzione);
     }
 
@@ -49,13 +54,12 @@ public class Stanza {
     }
 
     public int getNumeroAttrezzi() {
-        return this.numeroAttrezzi;
+        return this.attrezzi.size();
     }
 
     public boolean addAttrezzo(Attrezzo attrezzo) {
-        if (this.numeroAttrezzi < NUMERO_MASSIMO_ATTREZZI) {
+        if (this.attrezzi.size() < NUMERO_MASSIMO_ATTREZZI) {
         	this.attrezzi.add(attrezzo);
-        	this.numeroAttrezzi++;
         	return true;
         }
         else {
@@ -65,23 +69,27 @@ public class Stanza {
     
     public String toString() {
     	StringBuilder risultato = new StringBuilder();
-    	risultato.append(this.nome);
+    	risultato.append("Sei in " + this.nome);
     	risultato.append("\nUscite: ");
-    	for (String direzione : this.direzioni) {
-    		if (direzione != null) {
-    			risultato.append(" " + direzione);
-            }
+        for (Map.Entry<Direzione,Stanza> entry : this.stanzeAdiacenti.entrySet()) {
+            risultato.append(" " + entry.getKey());
         }
     	risultato.append("\nAttrezzi nella stanza: ");
-    	if (this.numeroAttrezzi > 0) {
+    	if (this.attrezzi.size() > 0) {
 			for (Attrezzo attrezzo : this.attrezzi) {
 				if (attrezzo != null) {
 					risultato.append(attrezzo.toString() + " ");
 				}
 			}
 		} else {
-			risultato.append("Nessun attrezzo presente");
+			risultato.append("nessun attrezzo presente");
 		}
+        risultato.append("\nPersonaggio nella stanza: ");
+        if (personaggio != null) {            
+            risultato.append(personaggio.toString() + " ");
+        } else {
+            risultato.append("nessun personaggio presente");
+        }
     	return risultato.toString();
     }
 
@@ -98,10 +106,18 @@ public class Stanza {
 	}
 
     public boolean removeAttrezzo(Attrezzo attrezzo) {
-		return this.attrezzi.remove(attrezzo);
+        return this.attrezzi.remove(attrezzo);
 	}
 
-	public String[] getDirezioni() {
-		return this.stanzeAdiacenti.keySet().toArray(new String[0]);
+	public Direzione[] getDirezioni() {
+		return this.stanzeAdiacenti.keySet().toArray(new Direzione[0]);
+    }
+
+    public void setPersonaggio(AbstractPersonaggio personaggio) {
+        this.personaggio = personaggio;
+    }
+
+    public AbstractPersonaggio getPersonaggio() {
+        return this.personaggio;
     }
 }

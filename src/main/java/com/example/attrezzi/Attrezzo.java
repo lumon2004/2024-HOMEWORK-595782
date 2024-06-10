@@ -1,4 +1,4 @@
-package attrezzi;
+package com.example.attrezzi;
 
 import java.util.Objects;
 

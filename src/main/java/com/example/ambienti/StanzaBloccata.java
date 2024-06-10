@@ -1,17 +1,17 @@
-package ambienti;
+package com.example.ambienti;
 
 public class StanzaBloccata extends Stanza {
-    String direzioneBloccata;
+    Direzione direzioneBloccata;
     String nomeAttrezzo;
 
-    public StanzaBloccata (String nome, String dirBloc, String attrezzoUtile) {
+    public StanzaBloccata (String nome, Direzione dirBloc, String attrezzoUtile) {
         super(nome);
         this.direzioneBloccata = dirBloc;
         this.nomeAttrezzo = attrezzoUtile;
     }
 
     @Override
-    public Stanza getStanzaAdiacente(String direzioneBloccata) {
+    public Stanza getStanzaAdiacente(Direzione direzioneBloccata) {
         int trovato = 0;
         for (int i=0; i<super.getNumeroAttrezzi(); i++) {
             if (nomeAttrezzo.equals(super.getAttrezzo(nomeAttrezzo).getNome())) {

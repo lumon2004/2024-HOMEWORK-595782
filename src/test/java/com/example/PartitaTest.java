@@ -1,10 +1,11 @@
+package com.example;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
 
-import ambienti.Stanza;
-import partita.Partita;
+import com.example.ambienti.Stanza;
 
 public class PartitaTest {
 	Partita p = new Partita();

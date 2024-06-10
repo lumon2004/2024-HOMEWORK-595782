@@ -1,5 +1,5 @@
-package ambienti;
-import attrezzi.Attrezzo;
+package com.example.ambienti;
+import com.example.attrezzi.Attrezzo;
 
 public class StanzaProtected {
     static final private int NUMERO_MASSIMO_DIREZIONI = 4;

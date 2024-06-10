@@ -1,12 +1,17 @@
-package comandi;
+package com.example.comandi;
 
-import ambienti.Stanza;
-import io.IOConsole;
-import partita.Partita;
+import java.util.Scanner;
 
-public class ComandoVai implements Comando {
-    private String direzione;
-    IOConsole io = new IOConsole();
+import com.example.IOConsole;
+import com.example.Partita;
+import com.example.ambienti.*;
+
+@SuppressWarnings("unused")
+
+public class ComandoVai extends AbstractComando {
+    Direzione direzione;
+    Scanner scanner = new Scanner(System.in);
+    IOConsole io = new IOConsole(scanner);
     private final static String NOME = "vai";
 
     @Override
@@ -18,9 +23,7 @@ public class ComandoVai implements Comando {
             io.mostraMessaggio("Dove vuoi andare?\nDevi specificare una direzione");
             return;
         }
-
         prossimaStanza = stanzaCorrente.getStanzaAdiacente(this.direzione);
-
         if (prossimaStanza == null) {
             io.mostraMessaggio("Direzione inesistente");
             return;
@@ -31,18 +34,11 @@ public class ComandoVai implements Comando {
         partita.getGiocatore().setCfu(partita.getGiocatore().getCfu()-1);
     }
 
-    @Override
-    public void setParametro(String direzione) {
-        this.direzione = direzione;
-    }
-
-    @Override
-    public String getParametro() {
-        return this.direzione;
-    }
-
-    @Override
-    public String getNome() {
-        return NOME;
+    public void setParametro(String parametro) {
+        try {
+            this.direzione = Direzione.valueOf(parametro.toString());
+        } catch (IllegalArgumentException e) {
+            this.direzione = null;
+        }
     }
 }

@@ -1,4 +1,4 @@
-package comandi;
+package com.example.comandi;
 import java.util.Scanner;
 
 public class FabbricaDiComandiFisarmonica implements FabbricaDiComandi {

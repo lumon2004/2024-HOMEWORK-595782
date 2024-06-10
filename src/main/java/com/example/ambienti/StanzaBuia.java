@@ -1,4 +1,4 @@
-package ambienti;
+package com.example.ambienti;
 
 public class StanzaBuia extends Stanza {
     private String nomeAttrezzo;

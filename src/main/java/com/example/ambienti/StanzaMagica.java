@@ -1,6 +1,6 @@
-package ambienti;
+package com.example.ambienti;
 
-import attrezzi.Attrezzo;
+import com.example.attrezzi.Attrezzo;
 
 public class StanzaMagica extends Stanza {
     final static private int SOGLIA_MAGICA_DEFAULT = 3;
@@ -24,9 +24,8 @@ public class StanzaMagica extends Stanza {
         if (this.contatoreAttrezziPosati > this.sogliaMagica) {
             attrezzo = this.modificaAttrezzo(attrezzo);
         }
-        if (this.numeroAttrezzi <= this.attrezzi.size()) {
+        if (this.attrezzi.size() <= this.attrezzi.size()) {
             this.attrezzi.add(attrezzo);
-            this.numeroAttrezzi++;
             return true;
         } else {
             return false;
